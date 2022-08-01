@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gmi_calculator/constants/app_const.dart';
 import 'package:gmi_calculator/screen/screen_gender/screen_gender.dart';
 
@@ -33,7 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigatetoHome() async {
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const GenderScreen()));
+   Get.offNamed('/gender');
   }
 }
