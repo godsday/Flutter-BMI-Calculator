@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gmi_calculator/constants/app_const.dart';
-import 'package:gmi_calculator/screen/screen_gender/screen_gender.dart';
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -21,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: mainHexcolor,
+      color: Colors.amber,
       child: const Center(
         child: Text(
           'B M I',

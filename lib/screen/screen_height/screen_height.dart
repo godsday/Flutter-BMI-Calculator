@@ -1,6 +1,3 @@
-//     double _bmiResult = 0;
-//         String _textResult = "";
-
 // class HomeScreen extends StatefulWidget {
 //   const HomeScreen({Key? key}) : super(key: key);
 
@@ -125,12 +122,11 @@
 //   }
 // }
 
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gmi_calculator/screen/screen_calculate/calculate_controller.dart';
 import 'package:gmi_calculator/screen/screen_height/height_controller.dart';
+import 'package:gmi_calculator/widgets/headingtext.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class HeightScreen extends StatelessWidget {
@@ -138,24 +134,22 @@ class HeightScreen extends StatelessWidget {
 
   final heightController = Get.put(HeightController());
 
-  final calculateController =Get.put(CalculateController());  
+  final calculateController = Get.put(CalculateController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //   appBar: AppBar(),
       backgroundColor: Colors.blue.shade100,
       body: SafeArea(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
-          HeadingText(
+          const HeadingText(
             heading: "Height",
           ),
-
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           GetBuilder<HeightController>(builder: (context) {
@@ -165,7 +159,7 @@ class HeightScreen extends StatelessWidget {
               tickPosition: LinearElementPosition.outside,
               labelPosition: LinearLabelPosition.outside,
               minorTicksPerInterval: 5,
-              majorTickStyle: LinearTickStyle(
+              majorTickStyle: const LinearTickStyle(
                   length: 10, thickness: 2, color: Colors.black45),
               markerPointers: <LinearMarkerPointer>[
                 LinearShapePointer(
@@ -190,7 +184,7 @@ class HeightScreen extends StatelessWidget {
                         width: 24,
                         height: 16,
                         child: Container(
-                          color: Color.fromARGB(255, 98, 153, 180),
+                          color: const Color.fromARGB(255, 98, 153, 180),
                         ))),
                 LinearWidgetPointer(
                   value: heightController.heightValue.ceilToDouble(),
@@ -202,10 +196,10 @@ class HeightScreen extends StatelessWidget {
                     height: 25,
                     decoration: BoxDecoration(
                       color: Colors.amber,
-                      boxShadow: <BoxShadow>[
+                      boxShadow: const <BoxShadow>[
                         BoxShadow(
                           color: Colors.black54,
-                          offset: const Offset(0.0, 1.0), 
+                          offset: Offset(0.0, 1.0),
                           blurRadius: 6.0,
                         )
                       ],
@@ -226,12 +220,10 @@ class HeightScreen extends StatelessWidget {
                   child: Image.asset('assets/images/schlboy 1.png'),
                 )
               ],
-            
               axisTrackStyle: const LinearAxisTrackStyle(),
             );
           }),
-        
-          SizedBox(
+          const SizedBox(
             height: 90,
           ),
           Row(
@@ -247,13 +239,12 @@ class HeightScreen extends StatelessWidget {
                       primary: Colors.lime,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30))),
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios,
                     color: Colors.black54,
                   )),
               ElevatedButton(
                   onPressed: () {
-                    //print(heightController.heightValue.ceilToDouble());
                     calculateController.bmiResultcalculate();
                     Get.toNamed('/calculate');
                   },
@@ -270,19 +261,6 @@ class HeightScreen extends StatelessWidget {
           )
         ],
       )),
-    );
-  }
-}
-
-class HeadingText extends StatelessWidget {
-  final String heading;
-  const HeadingText({Key? key, required this.heading}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      heading,
-      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
     );
   }
 }

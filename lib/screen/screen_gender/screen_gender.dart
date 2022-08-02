@@ -1,16 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gmi_calculator/screen/screen_gender/gender_controller.dart';
-import 'package:gmi_calculator/screen/screen_height/screen_height.dart';
-import 'package:lottie/lottie.dart';
-
-const activeColor = Color.fromARGB(197, 209, 38, 118);
-const inActiveColor = Color.fromARGB(223, 237, 242, 247);
+import 'package:gmi_calculator/widgets/headingtext.dart';
+import 'widget/agebutton_widget.dart';
+import 'widget/containerbox_widget.dart';
 
 class GenderScreen extends StatelessWidget {
   GenderScreen({Key? key}) : super(key: key);
@@ -30,7 +24,7 @@ class GenderScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -42,14 +36,14 @@ class GenderScreen extends StatelessWidget {
                         color: Colors.lightBlue.withOpacity(0.3),
                         spreadRadius: 1.5,
                         blurRadius: 0.3,
-                        offset: Offset(0, 3))
+                        offset: const Offset(0, 3))
                   ]),
               child: Column(
                 children: [
                   Row(
-                    children: [
+                    children: const [
                       Padding(
-                        padding: const EdgeInsets.all(18.0),
+                        padding: EdgeInsets.all(18.0),
                         child: HeadingText(heading: "Gender"),
                       ),
                     ],
@@ -79,13 +73,13 @@ class GenderScreen extends StatelessWidget {
                       ],
                     );
                   }),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   )
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Container(
@@ -97,15 +91,15 @@ class GenderScreen extends StatelessWidget {
                         color: Colors.blueGrey.withOpacity(0.3),
                         spreadRadius: 1.5,
                         blurRadius: 0.3,
-                        offset: Offset(0, 3))
+                        offset: const Offset(0, 3))
                   ]),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
-                    children: [
+                    children: const [
                       Padding(
-                        padding: const EdgeInsets.all(18.0),
+                        padding: EdgeInsets.all(18.0),
                         child: HeadingText(heading: "Age"),
                       ),
                     ],
@@ -115,7 +109,6 @@ class GenderScreen extends StatelessWidget {
                     width: width,
                     child: GetBuilder<GenderController>(builder: (context) {
                       return Column(
-                        // crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
@@ -128,11 +121,11 @@ class GenderScreen extends StatelessWidget {
                                     LengthLimitingTextInputFormatter(3),
                                   ],
                                   keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Enter Age Here",
                                       hintStyle: TextStyle(fontSize: 17)),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 95,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -148,19 +141,19 @@ class GenderScreen extends StatelessWidget {
                       AgeButtons(icons: Icons.add, index: 1),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   )
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 205,
                 ),
                 ElevatedButton(
@@ -181,92 +174,6 @@ class GenderScreen extends StatelessWidget {
           ],
         )),
       ),
-    );
-  }
-}
-
-class AgeButtons extends StatelessWidget {
-  final IconData icons;
-  final int index;
-  final genderController = Get.put(GenderController());
-  AgeButtons({
-    Key? key,
-    required this.icons,
-    required this.index,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: 80,
-        height: 50,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.lightBlue.shade200),
-        child: IconButton(
-            onPressed: () {
-              index == 0
-                  ? genderController.decrement()
-                  : genderController.increment();
-            },
-            icon: Icon(
-              icons,
-              size: 28,
-            )));
-  }
-}
-
-class ContainerBox extends StatelessWidget {
-  final String image;
-  final Color boxColor;
-  final String gender;
-  const ContainerBox(
-      {Key? key,
-      required this.image,
-      required this.boxColor,
-      required this.gender})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return Column(
-      children: [
-        Container(
-          width: width / 2.5,
-          height: height / 3.5,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                    color: boxColor.withOpacity(0.3),
-                    spreadRadius: 1.5,
-                    blurRadius: 0.3,
-                    offset: Offset(0, 3))
-              ]),
-          child: Column(
-            children: [
-              SizedBox(
-                width: width / 2.5,
-                height: height / 4.5,
-                child: Lottie.asset(
-                  image,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(gender,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
