@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
   get: ^4.6.5
   hexcolor: ^2.0.6
+  lottie: ^1.4.0
   syncfusion_flutter_gauges: ^20.2.39
 
 dev_dependencies:
@@ -52,6 +53,9 @@ flutter:
   assets:
     - assets/images/female.jpg
     - assets/images/men.jpg
+    - assets/images/schlboy 1.png
+    - assets/animation/lf20_ltdnyedu.json
+    - assets/animation/lf20_oorbm6np.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

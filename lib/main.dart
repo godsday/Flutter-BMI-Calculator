@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/gender', page: ()=> GenderScreen()),
                 GetPage(name: '/weight', page: ()=>const WeightsScreen()),
                         GetPage(name: '/height', page: ()=> HeightScreen()),
-                                GetPage(name: '/calculate', page: ()=>const CalculateScreen()),
+                                GetPage(name: '/calculate', page: ()=> CalculateScreen()),
 
  
 

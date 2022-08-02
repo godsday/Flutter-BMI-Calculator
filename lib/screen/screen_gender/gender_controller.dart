@@ -1,18 +1,56 @@
+
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gmi_calculator/screen/screen_gender/screen_gender.dart';
 
 class GenderController extends GetxController{
-  int age=0;
+   Color maleBoxColor=activeColor;
+   Color femaleBoxColor = inActiveColor;
+    final ageController = TextEditingController();
+
+
   
   increment(){
-    age++;
+  int ageValue =int.tryParse(ageController.text)??0 ;
+  ageValue++;
+  ageController.text=ageValue.toString();
     update();
   }
   decrement(){
-    age--;
+    int ageValue =int.tryParse(ageController.text)??0 ;
+    ageValue--;
+    ageValue>=0?
+    ageController.text=ageValue.toString():0;
+    update();
   }
-  changingAge(controller){
-    controller=age;
+  // changingAge(){
+  //   ageController.text=age.toString();
+  //   update();
+
+  // }
+
+ 
+     void updateBoxColor(int value){
+    if(value == 1){
+      if(maleBoxColor == inActiveColor){
+        maleBoxColor=activeColor;
+        femaleBoxColor= inActiveColor;
+      }else{
+        maleBoxColor = inActiveColor;
+        femaleBoxColor = activeColor;
+      }
+    }else{
+        if(femaleBoxColor == inActiveColor){
+        femaleBoxColor=activeColor;
+        maleBoxColor= inActiveColor;
+      }else{
+        maleBoxColor = activeColor;
+        femaleBoxColor = inActiveColor;
+      }
+    }
     update();
 
   }
+  
 }

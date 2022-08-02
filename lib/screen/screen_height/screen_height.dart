@@ -129,20 +129,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gmi_calculator/screen/screen_calculate/calculate_controller.dart';
 import 'package:gmi_calculator/screen/screen_height/height_controller.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class HeightScreen extends StatefulWidget {
+class HeightScreen extends StatelessWidget {
   HeightScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HeightScreen> createState() => _HeightScreenState();
-}
-
-class _HeightScreenState extends State<HeightScreen> {
   final heightController = Get.put(HeightController());
-//double height =0;
 
+  final calculateController =Get.put(CalculateController());  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,62 +151,86 @@ class _HeightScreenState extends State<HeightScreen> {
           SizedBox(
             height: 50,
           ),
-          Text(
-            "HEIGHT",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          HeadingText(
+            heading: "Height",
           ),
 
           SizedBox(
             height: 50,
           ),
-          GetBuilder<HeightController>(
-            builder: (context) {
-              return SfLinearGauge(
-                orientation: LinearGaugeOrientation.vertical,
-                maximum: 200,
-                tickPosition: LinearElementPosition.outside,
-                labelPosition: LinearLabelPosition.outside,
-                minorTicksPerInterval: 20,
-                majorTickStyle: LinearTickStyle(
-                    length: 10, thickness: 2, color: Colors.black45),
-                markerPointers: <LinearMarkerPointer>[
-                  LinearShapePointer(
+          GetBuilder<HeightController>(builder: (context) {
+            return SfLinearGauge(
+              orientation: LinearGaugeOrientation.vertical,
+              maximum: 220,
+              tickPosition: LinearElementPosition.outside,
+              labelPosition: LinearLabelPosition.outside,
+              minorTicksPerInterval: 5,
+              majorTickStyle: LinearTickStyle(
+                  length: 10, thickness: 2, color: Colors.black45),
+              markerPointers: <LinearMarkerPointer>[
+                LinearShapePointer(
+                  enableAnimation: true,
+                  value: heightController.heightValue,
+                  onChanged: (newValue) {
+                    heightController.changedValue(newValue);
+                  },
+                  shapeType: LinearShapePointerType.rectangle,
+                  color: const Color(0xff0074E3),
+                  height: 1.5,
+                  width: 250,
+                ),
+                LinearWidgetPointer(
                     value: heightController.heightValue,
-                    onChanged: (newValue){
-                     heightController.changedValue(newValue);
-                       
-                      
-                      
-                      
+                    enableAnimation: true,
+                    onChanged: (newValue) {
+                      heightController.changedValue(newValue);
                     },
+                    position: LinearElementPosition.inside,
+                    child: SizedBox(
+                        width: 24,
+                        height: 16,
+                        child: Container(
+                          color: Color.fromARGB(255, 98, 153, 180),
+                        ))),
+                LinearWidgetPointer(
+                  value: heightController.heightValue.ceilToDouble(),
+                  onChanged: (newValue) {
+                    heightController.changedValue(newValue);
+                  },
+                  child: Container(
+                    width: 60,
+                    height: 25,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black54,
+                          offset: const Offset(0.0, 1.0), 
+                          blurRadius: 6.0,
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Center(
+                        child:
+                            Text('${heightController.heightValue.toInt()} cm')),
                   ),
-                ],
-                //  onGenerateLabels: (){
-
-                //   return <LinearAxisLabel>[
-                //    LinearAxisLabel(text: "10 cm", value: 10)
-                //   ];
-
-                //  },
-              );
-            }
-          ),
-
-          // child: TextField(
-          //   controller: _weightcontroller,
-          //   keyboardType: TextInputType.number,
-          //   style: TextStyle(
-          //       fontSize: 32,
-          //       color: accentHexColor,
-          //       fontWeight: FontWeight.w300),
-          //   decoration: const InputDecoration(
-          //       hintText: 'Weight',
-          //       border: InputBorder.none,
-          //       hintStyle: TextStyle(
-          //           fontSize: 32,
-          //           fontWeight: FontWeight.w300,
-          //           color: Colors.white)),
-          // ),
+                )
+              ],
+              ranges: <LinearGaugeRange>[
+                LinearGaugeRange(
+                  endValue: heightController.heightValue,
+                  startWidth: 200,
+                  endWidth: 200,
+                  color: Colors.transparent,
+                  child: Image.asset('assets/images/schlboy 1.png'),
+                )
+              ],
+            
+              axisTrackStyle: const LinearAxisTrackStyle(),
+            );
+          }),
+        
           SizedBox(
             height: 90,
           ),
@@ -233,6 +253,8 @@ class _HeightScreenState extends State<HeightScreen> {
                   )),
               ElevatedButton(
                   onPressed: () {
+                    //print(heightController.heightValue.ceilToDouble());
+                    calculateController.bmiResultcalculate();
                     Get.toNamed('/calculate');
                   },
                   style: ElevatedButton.styleFrom(
@@ -248,6 +270,19 @@ class _HeightScreenState extends State<HeightScreen> {
           )
         ],
       )),
+    );
+  }
+}
+
+class HeadingText extends StatelessWidget {
+  final String heading;
+  const HeadingText({Key? key, required this.heading}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      heading,
+      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
     );
   }
 }

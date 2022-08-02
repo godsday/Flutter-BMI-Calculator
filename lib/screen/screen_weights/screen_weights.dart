@@ -28,27 +28,44 @@ class _WeightsScreenState extends State<WeightsScreen> {
       body: SafeArea(child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const SizedBox(height: 50,),
-          // const Text("GENDER",style:  TextStyle(
-          //   fontSize: 30,
-          //   fontWeight: FontWeight.bold
-          // ),),
-         // SizedBox(height: 00,),
+      
+          const Text("Weight",style:  TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold
+          ),),
+        
          GetBuilder<WeightController>(
            builder: (context) {
              return SfRadialGauge(
              axes:<RadialAxis> [
                RadialAxis(
+                axisLabelStyle: const GaugeTextStyle(
+                  color: Colors.black
+                ),
+                maximumLabels: 4,
+                majorTickStyle: const MajorTickStyle(
+                  thickness: 2,
+                  color: Colors.black
+                ),
+                canRotateLabels: true,
+                //canScaleToFit: true,
+                showLastLabel: true,
+                minorTicksPerInterval: 2,
+                axisLineStyle: const AxisLineStyle(
+                  thickness: 2.5,
+                  thicknessUnit: GaugeSizeUnit.logicalPixel
+                ),
                  showLabels: true,
                  showAxisLine: true,
                  showTicks: true,
+                 offsetUnit: GaugeSizeUnit.logicalPixel,
                  maximum: 150,
                  radiusFactor: 0.9,
                  ranges: <GaugeRange>[
                  GaugeRange(startValue: 20, endValue: 40,
                  
-                  startWidth: 0,
-                 endWidth: 10,
+                  startWidth: 10,
+                 endWidth: 0,
                  sizeUnit:GaugeSizeUnit.factor,
                  color: Colors.black12,),
                    GaugeRange(startValue: 40, endValue: 60,
@@ -70,10 +87,9 @@ class _WeightsScreenState extends State<WeightsScreen> {
                     pointers:<GaugePointer>[
                NeedlePointer(
                    
-                   value: weightController.changedValue,
+                   value: weightController.changedValue.ceilToDouble(),
                    onValueChanged: (newValue){
                      weightController.valueChanged(newValue);
-                      // gender=newValue.obs;
 
                      
                    },
@@ -81,7 +97,7 @@ class _WeightsScreenState extends State<WeightsScreen> {
                    needleLength: 0.7,
                    enableAnimation: true,
                    enableDragging: true,
-                   knobStyle: KnobStyle(
+                   knobStyle: const KnobStyle(
                      knobRadius: 12,
                      sizeUnit: GaugeSizeUnit.logicalPixel,
                      
@@ -89,18 +105,19 @@ class _WeightsScreenState extends State<WeightsScreen> {
              ],
              
              annotations:<GaugeAnnotation> [
-                GaugeAnnotation(widget:  weightController.changedValue>=20&&weightController.changedValue<40? 
-                Text('MALE',style:  TextStyle(
-             fontSize: 18,
-             fontWeight: FontWeight.bold)):weightController.changedValue>40&&weightController.changedValue<60?Text('Other',style:  TextStyle(
-             fontSize: 18,
-             fontWeight: FontWeight.bold)):Text("female"),
+                // ignore: prefer_const_constructors
+                GaugeAnnotation(widget: Text("${weightController.changedValue.toInt()} kg",style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                
+                ),) ,
+                
 
-               positionFactor: 1,
-               angle: 58,
+               positionFactor: 1.2,
+               angle: 78,
                )
                
-             ],
+            ],
                
                )
                
@@ -126,11 +143,12 @@ class _WeightsScreenState extends State<WeightsScreen> {
                       primary: Colors.lime,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30))),
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios,
                     color: Colors.black54,
                   )),
              ElevatedButton(onPressed: (){
+              print(weightController.changedValue.ceilToDouble());
               Get.toNamed('/height');
              },
              style: ElevatedButton.styleFrom(fixedSize: const Size(150, 50),elevation: 5,primary: Colors.amber,
@@ -146,4 +164,5 @@ class _WeightsScreenState extends State<WeightsScreen> {
     );
     
   }
+  String _cardAnnototationValue ='60';
 }
