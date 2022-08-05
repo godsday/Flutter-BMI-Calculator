@@ -24,9 +24,7 @@ class AgeButtons extends StatelessWidget {
             color: Colors.lightBlue.shade200),
         child: IconButton(
             onPressed: () {
-              index == 0
-                  ? genderController.decrement()
-                  : genderController.increment();
+              genderController.agebuttonControl(index);
             },
             icon: Icon(
               icons,

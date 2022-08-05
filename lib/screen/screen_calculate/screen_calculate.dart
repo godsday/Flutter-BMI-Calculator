@@ -48,6 +48,7 @@ class CalculateScreen extends StatelessWidget {
                 }
               ),
             ),
+            Text(calculateController.textResult,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 28)),
              Container(
                               width: 50,
                               height: 50,

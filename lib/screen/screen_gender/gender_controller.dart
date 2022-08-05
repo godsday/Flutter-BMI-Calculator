@@ -41,4 +41,10 @@ class GenderController extends GetxController {
     }
     update();
   }
+  agebuttonControl(int index){
+       index == 0
+                  ? decrement()
+                  : increment();
+                  update();
+  }
 }

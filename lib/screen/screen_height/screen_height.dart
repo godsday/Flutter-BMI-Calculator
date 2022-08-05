@@ -125,14 +125,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gmi_calculator/screen/screen_calculate/calculate_controller.dart';
-import 'package:gmi_calculator/screen/screen_height/height_controller.dart';
 import 'package:gmi_calculator/widgets/headingtext.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class HeightScreen extends StatelessWidget {
   HeightScreen({Key? key}) : super(key: key);
 
-  final heightController = Get.put(HeightController());
+  
 
   final calculateController = Get.put(CalculateController());
   @override
@@ -152,7 +151,7 @@ class HeightScreen extends StatelessWidget {
           const SizedBox(
             height: 50,
           ),
-          GetBuilder<HeightController>(builder: (context) {
+          GetBuilder<CalculateController>(builder: (context) {
             return SfLinearGauge(
               orientation: LinearGaugeOrientation.vertical,
               maximum: 220,
@@ -164,9 +163,9 @@ class HeightScreen extends StatelessWidget {
               markerPointers: <LinearMarkerPointer>[
                 LinearShapePointer(
                   enableAnimation: true,
-                  value: heightController.heightValue,
+                  value: calculateController.heightValue,
                   onChanged: (newValue) {
-                    heightController.changedValue(newValue);
+                    calculateController.changedHeightValue(newValue);
                   },
                   shapeType: LinearShapePointerType.rectangle,
                   color: const Color(0xff0074E3),
@@ -174,22 +173,18 @@ class HeightScreen extends StatelessWidget {
                   width: 250,
                 ),
                 LinearWidgetPointer(
-                    value: heightController.heightValue,
+                    value: calculateController.heightValue,
                     enableAnimation: true,
                     onChanged: (newValue) {
-                      heightController.changedValue(newValue);
+                      calculateController.changedHeightValue(newValue);
                     },
                     position: LinearElementPosition.inside,
-                    child: SizedBox(
-                        width: 24,
-                        height: 16,
-                        child: Container(
-                          color: const Color.fromARGB(255, 98, 153, 180),
-                        ))),
+                    child: Image.asset('assets/images/pointer.png',width: 30,)),
                 LinearWidgetPointer(
-                  value: heightController.heightValue.ceilToDouble(),
+                  position: LinearElementPosition.outside,
+                  value: calculateController.heightValue.ceilToDouble(),
                   onChanged: (newValue) {
-                    heightController.changedValue(newValue);
+                    calculateController.changedHeightValue(newValue);
                   },
                   child: Container(
                     width: 60,
@@ -207,17 +202,17 @@ class HeightScreen extends StatelessWidget {
                     ),
                     child: Center(
                         child:
-                            Text('${heightController.heightValue.toInt()} cm')),
+                            Text('${calculateController.heightValue.ceilToDouble()} cm')),
                   ),
                 )
               ],
               ranges: <LinearGaugeRange>[
                 LinearGaugeRange(
-                  endValue: heightController.heightValue,
-                  startWidth: 200,
-                  endWidth: 200,
+                  endValue: calculateController.heightValue,
+                  startWidth: 220,
+                  endWidth: 250,
                   color: Colors.transparent,
-                  child: Image.asset('assets/images/schlboy 1.png'),
+                  child:calculateController.heightValue<50? Image.asset('assets/images/baby.png'):Image.asset('assets/images/schlboy 1.png')
                 )
               ],
               axisTrackStyle: const LinearAxisTrackStyle(),
@@ -245,8 +240,8 @@ class HeightScreen extends StatelessWidget {
                   )),
               ElevatedButton(
                   onPressed: () {
-                    calculateController.bmiResultcalculate();
-                    Get.toNamed('/calculate');
+                   // calculateController.bmiResultcalculate();
+                   calculateController.navigateToResult();
                   },
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(150, 50),

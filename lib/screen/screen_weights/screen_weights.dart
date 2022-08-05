@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gmi_calculator/screen/screen_weights/weights_controller.dart';
+import 'package:gmi_calculator/screen/screen_calculate/calculate_controller.dart';
 import 'package:gmi_calculator/widgets/headingtext.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -12,7 +12,7 @@ class WeightsScreen extends StatefulWidget {
 }
 
 class _WeightsScreenState extends State<WeightsScreen> {
-  final weightController = Get.put(WeightController());
+  final calculateController = Get.put(CalculateController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +22,7 @@ class _WeightsScreenState extends State<WeightsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           const HeadingText(heading: "Weight"),
-          GetBuilder<WeightController>(builder: (context) {
+          GetBuilder<CalculateController>(builder: (context) {
             return SfRadialGauge(
               axes: <RadialAxis>[
                 RadialAxis(
@@ -71,9 +71,9 @@ class _WeightsScreenState extends State<WeightsScreen> {
                   ],
                   pointers: <GaugePointer>[
                     NeedlePointer(
-                        value: weightController.changedValue.ceilToDouble(),
+                        value: calculateController.weightValue,
                         onValueChanged: (newValue) {
-                          weightController.valueChanged(newValue);
+                          calculateController.valueWeightChanged(newValue);
                         },
                         needleLength: 0.7,
                         enableAnimation: true,
@@ -86,7 +86,7 @@ class _WeightsScreenState extends State<WeightsScreen> {
                   annotations: <GaugeAnnotation>[
                     GaugeAnnotation(
                       widget: Text(
-                        "${weightController.changedValue.toInt()} kg",
+                        "${calculateController.weightValue.ceilToDouble()} kg",
                         style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -119,7 +119,8 @@ class _WeightsScreenState extends State<WeightsScreen> {
                   )),
               ElevatedButton(
                   onPressed: () {
-                    Get.toNamed('/height');
+                    print(calculateController.weightValue);
+                    calculateController.navigateToHeight();
                   },
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(150, 50),
