@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gmi_calculator/constants/app_const.dart';
-import 'package:gmi_calculator/screen/screen_gender/screen_gender.dart';
-
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -20,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: mainHexcolor,
+      color: Colors.amber,
       child: const Center(
         child: Text(
           'B M I',
@@ -33,7 +31,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigatetoHome() async {
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const GenderScreen()));
+   Get.offNamed('/gender');
   }
 }

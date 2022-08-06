@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
- Color mainHexcolor =HexColor("#0C2032");
- Color accentHexColor = HexColor("#DAC4F7");
+const activeColor = Color.fromARGB(197, 209, 38, 118);
+const inActiveColor = Color.fromARGB(223, 237, 242, 247);

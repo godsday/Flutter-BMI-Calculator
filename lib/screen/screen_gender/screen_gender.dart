@@ -1,118 +1,179 @@
-
-
-
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-
-import '../screen_weight/screen_weight.dart';
+import 'package:gmi_calculator/screen/screen_gender/gender_controller.dart';
+import 'package:gmi_calculator/widgets/headingtext.dart';
+import 'widget/agebutton_widget.dart';
+import 'widget/containerbox_widget.dart';
 
 class GenderScreen extends StatelessWidget {
-  const GenderScreen({Key? key}) : super(key: key);
+  GenderScreen({Key? key}) : super(key: key);
+
+  final genderController = Get.put(GenderController());
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-    //  appBar: AppBar(title: Text(""),),
-    backgroundColor: Colors.teal.shade100,
-      body: SafeArea(child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const SizedBox(height: 50,),
-          const Text("GENDER",style:  TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold
-          ),),
-         // SizedBox(height: 00,),
-         SizedBox(
-           child: SfRadialGauge(
-            axes:<RadialAxis> [
-              RadialAxis(
-                showLabels: false,
-                showAxisLine: false,
-                showTicks: false,
-                maximum: 99,
-                radiusFactor: 0.9,
-                ranges: <GaugeRange>[
-                GaugeRange(startValue: 20, endValue: 40,
-                label: "Male",
-                 startWidth: 0,
-                endWidth: 10,
-                sizeUnit:GaugeSizeUnit.factor,
-                color: Colors.black12,),
-                  GaugeRange(startValue: 40, endValue: 60,
-                label: "Other",
-                 startWidth: 0,
-                endWidth: 10,
-                sizeUnit:GaugeSizeUnit.factor ,
-               color: Colors.cyan.shade300,
-                ),
-                GaugeRange(startValue: 60, endValue: 80,
-                label: "Female",
-                 color: Colors.blueGrey.shade400,
-                
-                   labelStyle: const GaugeTextStyle(
-                    ),
-                startWidth: 10,
-                endWidth:0,
-                sizeUnit: GaugeSizeUnit.factor,),],
-                   pointers: const <GaugePointer>[
-              NeedlePointer(
-                  
-                  value: 30,
-                  needleLength: 0.7,
-                  enableAnimation: true,
-                  enableDragging: true,
-                  knobStyle: KnobStyle(
-                    knobRadius: 12,
-                    sizeUnit: GaugeSizeUnit.logicalPixel,
-                    
-                  ))
-            ],
-            
-            annotations:const<GaugeAnnotation> [
-               GaugeAnnotation(widget:   Text("Male",style:  TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold)),
-              positionFactor: 1,
-              angle: 58,
-              )
-
-            ],
-              
-              )
-              
-            ],
-
-           ),
-         ),
-        //  Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //   children: [
-        //   SizedBox(width:70),
-        //   Text("Male",style: TextStyle(
-        //     fontSize: 18,
-        //     fontWeight: FontWeight.bold))
-        //  ],),
-         Row(
+      backgroundColor: Colors.blue.shade50,
+      body: SingleChildScrollView(
+        child: SafeArea(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-           children: [
-            const SizedBox(width:70 ,),
-             ElevatedButton(onPressed: (){
-              Get.to(const WeightScreen());
-             },
-             style: ElevatedButton.styleFrom(fixedSize: const Size(150, 50),elevation: 5,primary: Colors.amber,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-              child: const Text("Next",style:  TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold))),
-           ],
-         )
-
-        ],
-      )),
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: width - 15,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.lightBlue.withOpacity(0.3),
+                        spreadRadius: 1.5,
+                        blurRadius: 0.3,
+                        offset: const Offset(0, 3))
+                  ]),
+              child: Column(
+                children: [
+                  Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                        child: HeadingText(heading: "Gender"),
+                      ),
+                    ],
+                  ),
+                  GetBuilder<GenderController>(builder: (context) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              genderController.updateBoxColor(1);
+                            },
+                            child: ContainerBox(
+                              image: "assets/animation/lf20_ltdnyedu.json",
+                              boxColor: genderController.maleBoxColor,
+                              gender: "Male",
+                            )),
+                        GestureDetector(
+                            onTap: () {
+                              genderController.updateBoxColor(2);
+                            },
+                            child: ContainerBox(
+                              image: "assets/animation/lf20_oorbm6np.json",
+                              boxColor: genderController.femaleBoxColor,
+                              gender: "Female",
+                            )),
+                      ],
+                    );
+                  }),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              width: width - 20,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.blueGrey.withOpacity(0.3),
+                        spreadRadius: 1.5,
+                        blurRadius: 0.3,
+                        offset: const Offset(0, 3))
+                  ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(18.0),
+                        child: HeadingText(heading: "Age"),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: height / 4.7,
+                    width: width,
+                    child: GetBuilder<GenderController>(builder: (context) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                              width: width - 20,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 125.0),
+                                child: TextField(
+                                  controller: genderController.ageController,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(3),
+                                  ],
+                                  keyboardType: TextInputType.number,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Enter Age Here",
+                                      hintStyle: TextStyle(fontSize: 17)),
+                                  style: const TextStyle(
+                                      fontSize: 95,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                        ],
+                      );
+                    }),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      AgeButtons(icons: Icons.minimize, index: 0),
+                      AgeButtons(icons: Icons.add, index: 1),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const SizedBox(
+                  width: 205,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed('/weight');
+                    },
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(150, 50),
+                        elevation: 5,
+                        primary: Colors.amber,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30))),
+                    child: const Text("Next",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold))),
+              ],
+            )
+          ],
+        )),
+      ),
     );
-    
   }
 }

@@ -1,9 +1,3 @@
-
-
-//     double _bmiResult = 0;
-//         String _textResult = "";
-
-
 // class HomeScreen extends StatefulWidget {
 //   const HomeScreen({Key? key}) : super(key: key);
 
@@ -37,8 +31,7 @@
 //               mainAxisAlignment: MainAxisAlignment.center,
 //               crossAxisAlignment: CrossAxisAlignment.center,
 //               children: [
-         
-       
+
 //           SizedBox(
 //             width: 130,
 //             child: TextField(
@@ -67,7 +60,7 @@
 //               double _h = double.parse(_heightcontroller.text);
 //               double _w = double.parse(_weightcontroller.text);
 //               setState(() {
-                
+
 //                 _bmiResult = (_w / (_h * _h));
 //                 if (_bmiResult > 25) {
 //                   _textResult = "You're over weight";
@@ -76,7 +69,7 @@
 //                 } else {
 //                   _textResult = "You're under weight";
 //                 }
-              
+
 //               });
 //              },
 //              child: SizedBox(
@@ -87,17 +80,17 @@
 //                   fontWeight: FontWeight.bold,
 //                   color: accentHexColor),
 //             ),
-          
+
 //             ),
 //            ),
-          
+
 //           const SizedBox(
 //             height: 30,
 //           ),
 //           SizedBox(
-          
+
 //             child: Text(
-              
+
 //               _bmiResult.toStringAsFixed(2),
 //               style: TextStyle(
 //                   fontSize: 60,
@@ -108,7 +101,7 @@
 //           const SizedBox(
 //             height: 30,
 //           ),
-        
+
 //           Visibility(
 //             visible: _textResult.isNotEmpty,
 //             child: SizedBox(
@@ -124,91 +117,145 @@
 //           const SizedBox(
 //             height: 50,
 //           ),
-     
+
 //         ],),),);
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gmi_calculator/screen/screen_calculate/calculate_controller.dart';
+import 'package:gmi_calculator/widgets/headingtext.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
- 
-class HeightScreen extends StatelessWidget {
-   HeightScreen({Key? key}) : super(key: key);
-  final _weightcontroller = TextEditingController();
 
+class HeightScreen extends StatelessWidget {
+  HeightScreen({Key? key}) : super(key: key);
+
+  
+
+  final calculateController = Get.put(CalculateController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-   //   appBar: AppBar(),
-   backgroundColor: Colors.amber,
-      body: SafeArea(child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+      backgroundColor: Colors.blue.shade100,
+      body: SafeArea(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 50,),
-           Text("HEIGHT",style:  TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold
-          ),),
-       
-  SizedBox(height: 50,),
-             SfLinearGauge(
+          const SizedBox(
+            height: 50,
+          ),
+          const HeadingText(
+            heading: "Height",
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          GetBuilder<CalculateController>(builder: (context) {
+            return SfLinearGauge(
               orientation: LinearGaugeOrientation.vertical,
-              maximum: 200,
+              maximum: 220,
               tickPosition: LinearElementPosition.outside,
               labelPosition: LinearLabelPosition.outside,
-              minorTicksPerInterval: 20,
-              majorTickStyle: LinearTickStyle(length: 10,
-              thickness: 2,
-              color: Colors.black45),
-               markerPointers:<LinearMarkerPointer>[
-                LinearShapePointer(value: 120,
+              minorTicksPerInterval: 5,
+              majorTickStyle: const LinearTickStyle(
+                  length: 10, thickness: 2, color: Colors.black45),
+              markerPointers: <LinearMarkerPointer>[
+                LinearShapePointer(
+                  enableAnimation: true,
+                  value: calculateController.heightValue,
+                  onChanged: (newValue) {
+                    calculateController.changedHeightValue(newValue);
+                  },
+                  shapeType: LinearShapePointerType.rectangle,
+                  color: const Color(0xff0074E3),
+                  height: 1.5,
+                  width: 250,
                 ),
-             
-             ],
-             onGenerateLabels: (){
-            //  var val;
-            //    for(int i=10;i<200;i++){
-            //     i=val;
-            //     }
-              return <LinearAxisLabel>[
-               LinearAxisLabel(text: "${loop()} cm", value: loop()) 
-              ];
-
-             },
-             ),
-            
-              
-             
-              // child: TextField(
-              //   controller: _weightcontroller,
-              //   keyboardType: TextInputType.number,
-              //   style: TextStyle(
-              //       fontSize: 32,
-              //       color: accentHexColor,
-              //       fontWeight: FontWeight.w300),
-              //   decoration: const InputDecoration(
-              //       hintText: 'Weight',
-              //       border: InputBorder.none,
-              //       hintStyle: TextStyle(
-              //           fontSize: 32,
-              //           fontWeight: FontWeight.w300,
-              //           color: Colors.white)),
-              // ),
-           
-          
+                LinearWidgetPointer(
+                    value: calculateController.heightValue,
+                    enableAnimation: true,
+                    onChanged: (newValue) {
+                      calculateController.changedHeightValue(newValue);
+                    },
+                    position: LinearElementPosition.inside,
+                    child: Image.asset('assets/images/pointer.png',width: 30,)),
+                LinearWidgetPointer(
+                  position: LinearElementPosition.outside,
+                  value: calculateController.heightValue.ceilToDouble(),
+                  onChanged: (newValue) {
+                    calculateController.changedHeightValue(newValue);
+                  },
+                  child: Container(
+                    width: 60,
+                    height: 25,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black54,
+                          offset: Offset(0.0, 1.0),
+                          blurRadius: 6.0,
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Center(
+                        child:
+                            Text('${calculateController.heightValue.ceilToDouble()} cm')),
+                  ),
+                )
+              ],
+              ranges: <LinearGaugeRange>[
+                LinearGaugeRange(
+                  endValue: calculateController.heightValue,
+                  startWidth: 220,
+                  endWidth: 250,
+                  color: Colors.transparent,
+                  child:calculateController.heightValue<50? Image.asset('assets/images/baby.png'):Image.asset('assets/images/schlboy 1.png')
+                )
+              ],
+              axisTrackStyle: const LinearAxisTrackStyle(),
+            );
+          }),
+          const SizedBox(
+            height: 90,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(50, 50),
+                      elevation: 5,
+                      primary: Colors.lime,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30))),
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black54,
+                  )),
+              ElevatedButton(
+                  onPressed: () {
+                   // calculateController.bmiResultcalculate();
+                   calculateController.navigateToResult();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(150, 50),
+                      elevation: 5,
+                      primary: Colors.amber,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30))),
+                  child: const Text("Next",
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold))),
+            ],
+          )
         ],
       )),
     );
-
-    
   }
-
-  loop(){
-   double i;
-  for ( i = 0; i <= 200; i+10) {
-    LinearAxisLabel(text: "$i cm", value: i);
-  }
-  return i;
-
-  } 
 }
